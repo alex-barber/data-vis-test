@@ -1,8 +1,22 @@
 <div>
-  <ul>
-  <% @pastries.each do |pastry| %>
 
-  <li><%= pastry.name %></li>
-  <% end %>
-  </ul>
+  <div class="chart"></div>
+
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+  <script type="text/javascript">
+
+  let sloppydata ='<%= @pastries.to_json %>'
+  cleandata = JSON.parse(sloppydata.replace(/&quot;/g,'"'))
+
+      d3.select(".chart")
+          .selectAll("div")
+          .data(cleandata)
+          .enter()
+          .append("div")
+          .style("width", function(d) {
+              console.log(d)
+              return d.rating*10 + "px"; })
+          .text(function(d) { return d.name; });
+  </script>
 </div>
